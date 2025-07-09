@@ -2,3 +2,4 @@ Flask
 easyocr
 torch
 opencv-python-headless
+gunicorn
