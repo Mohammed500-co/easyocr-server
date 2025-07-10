@@ -1,26 +1,14 @@
 from flask import Flask, request, jsonify
 import easyocr
-import os
 
 app = Flask(__name__)
-reader = easyocr.Reader(['ar', 'en'], gpu=False)
+reader = easyocr.Reader(['ar', 'en'])
 
-@app.route('/analyze', methods=['POST'])
-def analyze():
+@app.route('/ocr', methods=['POST'])
+def ocr():
     if 'image' not in request.files:
-        return jsonify({'error': 'No file provided'}), 400
-
+        return jsonify({'error': 'No image uploaded'}), 400
     image = request.files['image']
-    image_path = os.path.join('temp', image.filename)
-    os.makedirs('temp', exist_ok=True)
-    image.save(image_path)
-
-    try:
-        result = reader.readtext(image_path, detail=0)
-        return jsonify({'text': result})
-    finally:
-        os.remove(image_path)
-
-@app.route('/')
-def home():
-    return 'OCR Server is Live'
+    result = reader.readtext(image.read())
+    text = ' '.join([item[1] for item in result])
+    return jsonify({'text': text})
