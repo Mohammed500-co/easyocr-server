@@ -18,3 +18,4 @@ def ocr():
 
 if __name__ == '__main__':
     app.run()
+fix: expose app instance for gunicorn
