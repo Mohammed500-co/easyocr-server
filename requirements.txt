@@ -1,5 +1,4 @@
 Flask
-easyocr
-torch
-opencv-python-headless
-gunicorn
+pytesseract
+Pillow
+flask-cors
